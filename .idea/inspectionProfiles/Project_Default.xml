@@ -1,0 +1,47 @@
+<component name="InspectionProjectProfileManager">
+  <profile version="1.0">
+    <option name="myName" value="Project Default" />
+    <inspection_tool class="PyPackageRequirementsInspection" enabled="true" level="WARNING" enabled_by_default="true">
+      <option name="ignoredPackages">
+        <value>
+          <list size="3">
+            <item index="0" class="java.lang.String" itemvalue="mysql-python" />
+            <item index="1" class="java.lang.String" itemvalue="futures" />
+            <item index="2" class="java.lang.String" itemvalue="Pillow" />
+          </list>
+        </value>
+      </option>
+    </inspection_tool>
+    <inspection_tool class="PyPep8Inspection" enabled="true" level="WEAK WARNING" enabled_by_default="true">
+      <option name="ignoredErrors">
+        <list>
+          <option value="W292" />
+        </list>
+      </option>
+    </inspection_tool>
+    <inspection_tool class="PyPep8NamingInspection" enabled="true" level="WEAK WARNING" enabled_by_default="true">
+      <option name="ignoredErrors">
+        <list>
+          <option value="N802" />
+        </list>
+      </option>
+    </inspection_tool>
+    <inspection_tool class="PyUnresolvedReferencesInspection" enabled="true" level="WARNING" enabled_by_default="true">
+      <option name="ignoredIdentifiers">
+        <list>
+          <option value="django_workshop.django_workshop.urls.room_app" />
+          <option value="reservation.reservation_app.admin.reservation_app" />
+          <option value="exam.exam_app.admin.exam_app" />
+          <option value="exam.exam.urls.exam_app" />
+          <option value="urls.StudentsGradeView" />
+          <option value="urls.exercises_app" />
+          <option value="django.db.models.CASACADE" />
+          <option value="project.homework_app.admin.homework_app" />
+          <option value="urls.homework_app" />
+          <option value="project.homework_app.views.homework_app" />
+          <option value="moviebase.TIME_ZONE" />
+        </list>
+      </option>
+    </inspection_tool>
+  </profile>
+</component>
