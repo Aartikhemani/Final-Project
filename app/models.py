@@ -1,6 +1,6 @@
-from django.db import models
 from django.contrib.auth.models import User
-from django.core.validators import MaxValueValidator, MinValueValidator
+from django.db import models
+
 # Create your models here.
 
 
@@ -15,6 +15,7 @@ class Customer(models.Model):
     def __str__(self):
         return str(self.id)
 
+
 #
 # CATEGORY_CHOICE = (
 #     ('Retro Walk', 'Retro Walk'),
@@ -23,7 +24,7 @@ class Customer(models.Model):
 #     ('Bottom Wear', 'Bottom Wear'))
 
 
-class Tags(models.Model):
+class Tag(models.Model):
     title = models.CharField(max_length=200)
 
     def __str__(self):
@@ -36,15 +37,18 @@ class Category(models.Model):
     def __str__(self):
         return self.title
 
+    class Meta:
+        verbose_name_plural = "categories"
+
 
 class Product(models.Model):
     title = models.CharField(max_length=200)
     selling_price = models.FloatField()
-    discounted_price = models.FloatField(null=True,blank=True)
+    discounted_price = models.FloatField(null=True, blank=True)
     description = models.TextField()
     category = models.ForeignKey(Category, on_delete=models.CASCADE)
-    tags = models.ManyToManyField(Tags)
-    product_image = models.ImageField(upload_to='productImages',default=False)
+    tags = models.ManyToManyField(Tag)
+    product_image = models.ImageField(upload_to="productImages", default=False)
 
     def __str__(self):
         return str(self.id)
@@ -52,24 +56,36 @@ class Product(models.Model):
 
 class Cart(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
-    product = models.ForeignKey(Product, on_delete=models.CASCADE)
-    quantity = models.PositiveIntegerField(default=1)
+    items = models.ManyToManyField(Product, through="CartItem")
 
     def __str__(self):
         return str(self.id)
 
-    class Meta:
-        verbose_name_plural = "Cart"
-
     @property
     def total_cost(self):
-        return self.quantity * self.product.selling_price
+        total = 0
+        for item in self.items.all():
+            total += CartItem.objects.get(product=item).subtotal
+        return total
+
+
+class CartItem(models.Model):
+    cart = models.ForeignKey(Cart, on_delete=models.CASCADE)
+    product = models.ForeignKey(Product, on_delete=models.CASCADE)
+    quantity = models.PositiveIntegerField(default=1)
+
+    def __str__(self):
+        return f"{self.quantity}x {self.product.title} = ${self.subtotal:.2f}"
+
+    @property
+    def subtotal(self):
+        return self.product.selling_price * self.quantity
 
 
 STATUS_CHOICES = (
-    ('Pending','Pending'),
-    ('Delivered', 'Delivered'),
-    ('Cancel', 'Cancel')
+    ("Pending", "Pending"),
+    ("Delivered", "Delivered"),
+    ("Cancel", "Cancel"),
 )
 
 
@@ -78,7 +94,7 @@ class OrderPlaced(models.Model):
     customer = models.ForeignKey(Customer, on_delete=models.CASCADE)
     product = models.ForeignKey(Product, on_delete=models.CASCADE)
     ordered_date = models.DateTimeField()
-    status = models.CharField(max_length=100, choices=STATUS_CHOICES, default='Pending')
+    status = models.CharField(max_length=100, choices=STATUS_CHOICES, default="Pending")
 
     class Meta:
-        verbose_name_plural = "Order placed"
+        verbose_name_plural = "Orders placed"
