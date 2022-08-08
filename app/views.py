@@ -1,4 +1,5 @@
 from django.contrib import messages
+from django.db.models import Q
 from django.http import HttpResponse
 from django.shortcuts import redirect, render
 from django.views import View
@@ -198,6 +199,7 @@ def checkout(request):
 
 def search(request):
     query = request.GET["query"]
-    all = Product.objects.filter(title__icontains=query)
-    return render(request, "app/search.html", {"all": all})
-    # return HttpResponse('this is search')
+    products = Product.objects.filter(
+        Q(title__icontains=query) | Q(tags__title__icontains=query)
+    )
+    return render(request, "app/search.html", {"products": products})
