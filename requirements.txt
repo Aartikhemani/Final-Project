@@ -1,0 +1,3 @@
+Pillow
+django
+psycopg2-binary
