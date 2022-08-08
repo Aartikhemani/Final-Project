@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from .models import Cart, Category, Customer, OrderPlaced, Product, Tag
+from .models import Cart, Category, Customer, OrderPlaced, Product, Tag, CartItem
 
 # Register your models here.
 # admin.site.register(Customer)
@@ -9,6 +9,7 @@ from .models import Cart, Category, Customer, OrderPlaced, Product, Tag
 # admin.site.register(OrderPlaced)
 admin.site.register(Category)
 admin.site.register(Tag)
+admin.site.register(CartItem)
 
 
 @admin.register(Customer)
@@ -31,7 +32,7 @@ class ProductModelAdmin(admin.ModelAdmin):
 
 @admin.register(Cart)
 class CartModelAdmin(admin.ModelAdmin):
-    list_display = ["id", "user", "product", "quantity"]
+    list_display = ["id", "user"]
 
 
 @admin.register(OrderPlaced)

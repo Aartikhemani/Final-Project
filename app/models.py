@@ -56,18 +56,30 @@ class Product(models.Model):
 
 class Cart(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
-    product = models.ForeignKey(Product, on_delete=models.CASCADE)
-    quantity = models.PositiveIntegerField(default=1)
+    items = models.ManyToManyField(Product, through="CartItem")
 
     def __str__(self):
         return str(self.id)
 
-    class Meta:
-        verbose_name_plural = "Cart"
-
     @property
     def total_cost(self):
-        return self.quantity * self.product.selling_price
+        total = 0
+        for item in self.items.all():
+            total += CartItem.objects.get(product=item).subtotal
+        return total
+
+
+class CartItem(models.Model):
+    cart = models.ForeignKey(Cart, on_delete=models.CASCADE)
+    product = models.ForeignKey(Product, on_delete=models.CASCADE)
+    quantity = models.PositiveIntegerField(default=1)
+
+    def __str__(self):
+        return f"{self.quantity}x {self.product.title} = ${self.subtotal:.2f}"
+
+    @property
+    def subtotal(self):
+        return self.product.selling_price * self.quantity
 
 
 STATUS_CHOICES = (
