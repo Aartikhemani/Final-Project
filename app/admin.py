@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from .models import Cart, Category, Customer, OrderPlaced, Product, Tags
+from .models import Cart, Category, Customer, OrderPlaced, Product, Tag
 
 # Register your models here.
 # admin.site.register(Customer)
@@ -8,7 +8,7 @@ from .models import Cart, Category, Customer, OrderPlaced, Product, Tags
 # admin.site.register(Cart)
 # admin.site.register(OrderPlaced)
 admin.site.register(Category)
-admin.site.register(Tags)
+admin.site.register(Tag)
 
 
 @admin.register(Customer)

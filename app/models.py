@@ -1,5 +1,4 @@
 from django.contrib.auth.models import User
-from django.core.validators import MaxValueValidator, MinValueValidator
 from django.db import models
 
 # Create your models here.
@@ -25,7 +24,7 @@ class Customer(models.Model):
 #     ('Bottom Wear', 'Bottom Wear'))
 
 
-class Tags(models.Model):
+class Tag(models.Model):
     title = models.CharField(max_length=200)
 
     def __str__(self):
@@ -38,6 +37,9 @@ class Category(models.Model):
     def __str__(self):
         return self.title
 
+    class Meta:
+        verbose_name_plural = "categories"
+
 
 class Product(models.Model):
     title = models.CharField(max_length=200)
@@ -45,7 +47,7 @@ class Product(models.Model):
     discounted_price = models.FloatField(null=True, blank=True)
     description = models.TextField()
     category = models.ForeignKey(Category, on_delete=models.CASCADE)
-    tags = models.ManyToManyField(Tags)
+    tags = models.ManyToManyField(Tag)
     product_image = models.ImageField(upload_to="productImages", default=False)
 
     def __str__(self):
@@ -83,4 +85,4 @@ class OrderPlaced(models.Model):
     status = models.CharField(max_length=100, choices=STATUS_CHOICES, default="Pending")
 
     class Meta:
-        verbose_name_plural = "Order placed"
+        verbose_name_plural = "Orders placed"
