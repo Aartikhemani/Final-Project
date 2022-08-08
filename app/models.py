@@ -1,6 +1,7 @@
-from django.db import models
 from django.contrib.auth.models import User
 from django.core.validators import MaxValueValidator, MinValueValidator
+from django.db import models
+
 # Create your models here.
 
 
@@ -14,6 +15,7 @@ class Customer(models.Model):
 
     def __str__(self):
         return str(self.id)
+
 
 #
 # CATEGORY_CHOICE = (
@@ -40,11 +42,11 @@ class Category(models.Model):
 class Product(models.Model):
     title = models.CharField(max_length=200)
     selling_price = models.FloatField()
-    discounted_price = models.FloatField(null=True,blank=True)
+    discounted_price = models.FloatField(null=True, blank=True)
     description = models.TextField()
     category = models.ForeignKey(Category, on_delete=models.CASCADE)
     tags = models.ManyToManyField(Tags)
-    product_image = models.ImageField(upload_to='productImages',default=False)
+    product_image = models.ImageField(upload_to="productImages", default=False)
 
     def __str__(self):
         return str(self.id)
@@ -67,9 +69,9 @@ class Cart(models.Model):
 
 
 STATUS_CHOICES = (
-    ('Pending','Pending'),
-    ('Delivered', 'Delivered'),
-    ('Cancel', 'Cancel')
+    ("Pending", "Pending"),
+    ("Delivered", "Delivered"),
+    ("Cancel", "Cancel"),
 )
 
 
@@ -78,7 +80,7 @@ class OrderPlaced(models.Model):
     customer = models.ForeignKey(Customer, on_delete=models.CASCADE)
     product = models.ForeignKey(Product, on_delete=models.CASCADE)
     ordered_date = models.DateTimeField()
-    status = models.CharField(max_length=100, choices=STATUS_CHOICES, default='Pending')
+    status = models.CharField(max_length=100, choices=STATUS_CHOICES, default="Pending")
 
     class Meta:
         verbose_name_plural = "Order placed"
